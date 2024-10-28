@@ -1,19 +1,21 @@
 require("dotenv").config();
+const { Pool } = require("pg");
 
-// logic to connect to elephant.sql
-let pg = require("pg");
-let client = new pg.Client(process.env.PGURL);
+const isProduction = process.env.NODE_ENV === "production";
 
-client.connect(function (err) {
-  if (err) {
-    return console.error("could not connect to postgres", err);
-  }
-  client.query('SELECT NOW() AS "theTime"', function (err, result) {
-    if (err) {
-      return console.error("error running query", err);
-    }
-    console.log("Connection established!");
-  });
-});
+const pool = new Pool(
+  isProduction
+    ? {
+        connectionString: process.env.PGURL,
+        ssl: { rejectUnauthorized: false },
+      }
+    : {
+        user: process.env.PGUSER,
+        host: process.env.PGHOST,
+        database: process.env.PGDATABASE,
+        password: process.env.PGPASSWORD,
+        port: process.env.PGPORT,
+      }
+);
 
-module.exports = client;
+module.exports = pool;

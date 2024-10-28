@@ -1,4 +1,4 @@
-CREATE DATABASE jobboard;
+CREATE DATABASE job_board;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
