@@ -13,10 +13,10 @@ app.use(fileUpload({ useTempFiles: true }));
 const authRouter = require("./routes/auth");
 app.use("/auth", authRouter);
 
-const dashboardRouter = require("./routes/dashboard");
+const dashboardRouter = require("./routes/user");
 app.use("/user", dashboardRouter);
 
-const apiRouter = require("./routes/jobApi");
+const apiRouter = require("./routes/jobs");
 app.use("/api", apiRouter);
 
 const PORT = process.env.PORT || 2005;

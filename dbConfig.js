@@ -21,13 +21,13 @@ const pool = new Pool(
 pool.connect((err, client, release) => {
   if (err) {
     console.error("Error acquiring client", err.stack);
-    process.exit(1); // Exit if connection fails
+    process.exit(1); // Exit if connection fails.
   }
   client.query("SELECT NOW()", (err) => {
     release();
     if (err) {
       console.error("Error executing query", err.stack);
-      process.exit(1); // Exit if query fails
+      process.exit(1); // Exit if query fails.
     }
     console.log("Connected to the Database!");
   });
