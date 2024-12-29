@@ -13,7 +13,7 @@ const signUp = async (req, res) => {
     const user = await findUserByEmail(email);
     if (user) {
       return res
-        .status(401)
+        .status(409)
         .json({ error: "User with that email already exists." });
     }
 
