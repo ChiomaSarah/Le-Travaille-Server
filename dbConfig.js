@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { Pool } = require("pg");
+const CronJob = require("cron").CronJob;
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -32,5 +33,28 @@ pool.connect((err, client, release) => {
     console.log("Connected to the Database!");
   });
 });
+
+// Create a cron job that runs every 10 minutes.
+const job = new CronJob(
+  "*/10 * * * *",
+  function () {
+    console.log("Cron job started at:", new Date().toLocaleString());
+    pool.query("SELECT NOW()", (err) => {
+      if (err) {
+        console.error("Error keeping DB alive", err.stack);
+      } else {
+        console.log(
+          "Cron Job: DB Keep-alive query executed at:",
+          new Date().toLocaleString()
+        );
+      }
+    });
+  },
+  null,
+  true,
+  "UTC"
+);
+
+job.start();
 
 module.exports = pool;
