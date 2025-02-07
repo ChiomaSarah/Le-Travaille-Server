@@ -58,7 +58,23 @@ const login = async (req, res) => {
     }
 
     const token = jwtGenerator(user.user_id);
-    return res.status(200).json({ message: "Success!", token });
+
+    const userData = {
+      userId: user.user_id,
+      username: user.username,
+      email: user.email,
+      age: user.age,
+      degree: user.degree,
+      experience: user.experience,
+      location: user.location,
+      image_url: user.image_url,
+    };
+
+    return res.status(200).json({
+      message: "Login Successful!",
+      token,
+      user: userData,
+    });
   } catch (error) {
     return res
       .status(500)
