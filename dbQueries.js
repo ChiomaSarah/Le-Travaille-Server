@@ -72,18 +72,17 @@ const setFieldsAndValuesToUpdate = (data) => {
   return { fieldsToUpdate, valuesToUpdate };
 };
 
-const updateJobSeekerProfile = async (userId, data) => {
+const updateJobSeeker = async (userId, data) => {
   const { fieldsToUpdate, valuesToUpdate } = setFieldsAndValuesToUpdate(data);
 
   if (fieldsToUpdate.length === 0) {
     throw new Error("No fields provided for update!");
   }
-
   valuesToUpdate.push(userId);
 
   const query = `UPDATE job_seeker SET ${fieldsToUpdate.join(
     ", "
-  )} WHERE user_id = ? RETURNING *`;
+  )} WHERE user_id = $${valuesToUpdate.length} RETURNING *`;
 
   try {
     const result = await client.query(query, valuesToUpdate);
@@ -110,6 +109,6 @@ module.exports = {
   createNewUser,
   getJobSeekerById,
   getAllJobSeekers,
-  updateJobSeekerProfile,
+  updateJobSeeker,
   deleteJobSeekerProfile,
 };

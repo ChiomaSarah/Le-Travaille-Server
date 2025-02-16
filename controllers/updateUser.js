@@ -1,8 +1,9 @@
-const { updateJobSeekerProfile, getJobSeekerById } = require("../dbQueries");
+const { updateJobSeeker, getJobSeekerById } = require("../dbQueries");
 
-const updateUserProfile = async (req, res) => {
+const updateUser = async (req, res) => {
   const { user_id } = req.params;
-  const data = req.body;
+  const data = req.body; // All fields come from the request body
+
   try {
     const user = await getJobSeekerById(user_id);
 
@@ -12,7 +13,7 @@ const updateUserProfile = async (req, res) => {
       });
     }
 
-    const updatedProfile = await updateJobSeekerProfile(user_id, data);
+    const updatedProfile = await updateJobSeeker(user_id, data);
 
     return res.json({
       status: 200,
@@ -26,4 +27,4 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-module.exports = updateUserProfile;
+module.exports = updateUser;
