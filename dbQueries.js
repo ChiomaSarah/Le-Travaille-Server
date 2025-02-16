@@ -60,21 +60,33 @@ const getAllJobSeekers = async () => {
   }
 };
 
-const updateJobSeekerProfile = async (
-  userId,
-  username,
-  email,
-  password,
-  age,
-  degree,
-  experience,
-  location
-) => {
+const setFieldsAndValuesToUpdate = (data) => {
+  const fieldsToUpdate = Object.entries(data)
+    .filter(([_, value]) => value !== undefined) // Filter out any fields with undefined values.
+    .map(([key]) => `${key} = ?`);
+
+  const valuesToUpdate = Object.values(data).filter(
+    (value) => value !== undefined // Filter out undefined values and store the actual values to be updated.
+  );
+
+  return { fieldsToUpdate, valuesToUpdate };
+};
+
+const updateJobSeekerProfile = async (userId, data) => {
+  const { fieldsToUpdate, valuesToUpdate } = setFieldsAndValuesToUpdate(data);
+
+  if (fieldsToUpdate.length === 0) {
+    throw new Error("No fields provided for update!");
+  }
+
+  valuesToUpdate.push(userId);
+
+  const query = `UPDATE job_seeker SET ${fieldsToUpdate.join(
+    ", "
+  )} WHERE user_id = ? RETURNING *`;
+
   try {
-    const result = await client.query(
-      "UPDATE job_seeker SET username = $1, email = $2, password = $3, age = $4, degree = $5, experience = $6, location = $7 WHERE user_id = $8 RETURNING *",
-      [username, email, password, age, degree, experience, location, userId]
-    );
+    const result = await client.query(query, valuesToUpdate);
     return result.rows;
   } catch (err) {
     throw new Error(err.message);

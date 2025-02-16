@@ -9,7 +9,7 @@ const deleteUserProfile = async (req, res) => {
     }
     return res.json({
       status: 204,
-      message: "Profile Deleted!",
+      message: "Your profile has been deleted!",
       data: deletedProfile,
     });
   } catch (err) {

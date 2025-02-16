@@ -2,9 +2,7 @@ const { updateJobSeekerProfile, getJobSeekerById } = require("../dbQueries");
 
 const updateUserProfile = async (req, res) => {
   const { user_id } = req.params;
-  const { username, email, password, age, degree, experience, location } =
-    req.body;
-
+  const data = req.body;
   try {
     const user = await getJobSeekerById(user_id);
 
@@ -14,16 +12,7 @@ const updateUserProfile = async (req, res) => {
       });
     }
 
-    const updatedProfile = await updateJobSeekerProfile(
-      user_id,
-      username,
-      email,
-      password,
-      age,
-      degree,
-      experience,
-      location
-    );
+    const updatedProfile = await updateJobSeekerProfile(user_id, data);
 
     return res.json({
       status: 200,
@@ -31,9 +20,8 @@ const updateUserProfile = async (req, res) => {
       data: updatedProfile,
     });
   } catch (err) {
-    // console.error(err);
     return res.status(500).json({
-      message: err.message || " An unexpected error occurred",
+      message: err.message || "An unexpected error occurred",
     });
   }
 };
