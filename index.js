@@ -13,8 +13,8 @@ app.use(fileUpload({ useTempFiles: true }));
 const authRouter = require("./routes/auth");
 app.use("/auth", authRouter);
 
-const dashboardRouter = require("./routes/user");
-app.use("/user", dashboardRouter);
+const userRouter = require("./routes/user");
+app.use("/user", userRouter);
 
 const apiRouter = require("./routes/jobs");
 app.use("/api", apiRouter);

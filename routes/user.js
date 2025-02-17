@@ -8,7 +8,7 @@ const deleteUserProfile = require("../controllers/deleteUserProfile");
 
 router.get("/users", verifyToken, getAllUsers);
 router.get("/:user_id", getUserById);
-router.patch("/dashboard/:user_id", updateUserProfile);
-router.delete("/dashboard/:user_id", deleteUserProfile);
+router.patch("/:user_id", updateUserProfile);
+router.delete("/:user_id", deleteUserProfile);
 
 module.exports = router;

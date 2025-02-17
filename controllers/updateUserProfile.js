@@ -16,22 +16,20 @@ const updateUserProfile = async (req, res) => {
 
     const updatedProfile = await updateJobSeekerProfile(
       user_id,
-      username,
-      email,
-      password,
-      age,
-      degree,
-      experience,
-      location
+      username || user.username,
+      email || user.email,
+      password || user.password,
+      age || user.age,
+      degree || user.degree,
+      experience || user.experience,
+      location || user.location
     );
-
     return res.json({
       status: 200,
       message: "Profile Updated!",
       data: updatedProfile,
     });
   } catch (err) {
-    // console.error(err);
     return res.status(500).json({
       message: err.message || " An unexpected error occurred",
     });
