@@ -43,7 +43,7 @@ const signUp = async (req, res) => {
     const token = jwtGenerator(newUser.user_id);
     return res
       .status(201)
-      .json({ status: "success", data: { user: newUser, token } });
+      .json({ status: "Success", data: { user: newUser, token } });
   } catch (error) {
     return res
       .status(500)
@@ -130,7 +130,9 @@ const forgotPassword = async (req, res) => {
       `
     );
 
-    return res.status(200).json({ message: "Password reset email sent." });
+    return res
+      .status(200)
+      .json({ message: "A password reset email has been sent to you." });
   } catch (error) {
     return res
       .status(500)
