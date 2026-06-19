@@ -12,5 +12,7 @@ CREATE TABLE job_seeker(
     experience VARCHAR(50) NOT NULL,
     location VARCHAR(255) NOT NULL,
     image_url VARCHAR(255) NOT NULL,
-    cloudinary_id VARCHAR(255) NOT NULL
+    cloudinary_id VARCHAR(255) NOT NULL,
+    reset_token VARCHAR(255) UNIQUE,
+    reset_token_expiry TIMESTAMP
 );
