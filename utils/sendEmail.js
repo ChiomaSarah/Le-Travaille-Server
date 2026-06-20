@@ -1,26 +1,32 @@
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 
 const sendEmail = async (to, subject, html) => {
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    console.log("Attempting to send email to:", to);
+    console.log("Using Brevo SMTP...");
 
-    const { data, error } = await resend.emails.send({
-      from: `Le-Travaille <${process.env.SENDER_EMAIL}>`,
+    const transporter = nodemailer.createTransport({
+      host: "smtp-relay.brevo.com",
+      port: 587,
+      auth: {
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: `"Le-Travaille" <${process.env.SENDER_EMAIL}>`,
       to,
       subject,
       html,
-    });
+    };
 
-    if (error) {
-      console.error("Error sending email:", error);
-      throw new Error("Failed to send email!");
-    }
-
-    console.log(`Email sent to ${to}:`, data);
-    return data;
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`✅ Email sent to ${to}: ${info.response}`);
+    return info;
   } catch (error) {
     console.error("Error sending email:", error);
-    throw new Error("Failed to send email!");
+    throw new Error(`Failed to send email: ${error.message}`);
   }
 };
 
