@@ -73,9 +73,6 @@ const passwordResetTemplate = (username, resetLink) => {
             <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">
               &copy; 2024 Le-Travaille. All rights reserved.
             </p>
-            <p style="color: #ccc; font-size: 11px; text-align: center; margin: 5px 0 0;">
-              This email was sent to ${user.email}
-            </p>
           </div>
         </div>
       </body>
